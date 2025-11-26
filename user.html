@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profil Utilisateur</title>
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/user.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -49,17 +51,19 @@
         <a href="index.html" class="title-link">
             <h1>BIBLIOMANIAC</h1>
         </a>
-        <div class="search-bar">
-            <input type="text" placeholder="Rechercher...">
+
+        <button id="mobile-search-toggle" aria-label="Ouvrir la recherche">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+
+        <div class="search-bar" id="search-bar">
+            <input type="text" id="search-input" placeholder="Rechercher..." aria-label="Rechercher un livre" />
             <span class="search-icon">🔍</span>
         </div>
-        <div>
-            <a href="user.html">
-                <button class="user-button">
-                    <i class="fa-solid fa-user-circle"></i>
-                </button>
-            </a>
-        </div>
+
+        <a href="user.html" class="user-link" aria-label="Profil utilisateur">
+            <i class="fa-solid fa-user-circle"></i>
+        </a>
     </header>
 
     <div class="animated-background"></div>
@@ -85,73 +89,73 @@
         <div class="favorite-books">
             <div class="livres-pref">
                 <h1>Livres préférés</h1>
-
-            </div>
-            <div class="book">
-                <div onclick="location.href='bookDetails.html?id=3';" style="cursor: pointer;">
-                    <h3>La Métamorphose</h3>
-                    <p>Auteur: Franz Kafka</p>
-                    <p>Note: ★★★★★</p>
-                    <div class="progress-container">
-                        <span class="progress-label">80%</span>
-                        <div class="progress-bar">
-                            <div class="progress" style="width: 80%;"></div>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-            <div class="book">
-                <div onclick="location.href='bookDetails.html?id=1';" style="cursor: pointer;">
-
-                    <h3>Le Seigneur des Anneaux</h3>
-                    <p>Auteur: J.R.R. Tolkien</p>
-                    <p>Note: ★★★★★</p>
-                    <div class="progress-container">
-                        <span class="progress-label">80%</span>
-                        <div class="progress-bar">
-                            <div class="progress" style="width: 80%;"></div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
-
-
-            <div class="book">
-                <div onclick="location.href='bookDetails.html?id=4';" style="cursor: pointer;">
-
-                    <h3>Dune</h3>
-                    <p>Auteur: Frank Herbert</p>
-                    <p>Note: ★★★★★</p>
-                    <div class="progress-container">
-                        <span class="progress-label">80%</span>
-                        <div class="progress-bar">
-                            <div class="progress" style="width: 80%;"></div>
-                        </div>
+            <div class="book-card">
+                <a href="bookDetails.html?id=3" class="book-link">
+                    <div class="book-image">
+                        <img src="assets/images/metamo.png" alt="La Métamorphose" />
                     </div>
-                </div>
+                    <div class="book-infos-container">
+                        <div class="book-title">La Métamorphose</div>
+                        <div class="book-author">Franz Kafka</div>
+                        <div class="book-rating">★★★★★</div>
+                        <div class="book-price">Free</div>
+                    </div>
+                </a>
             </div>
 
-
-
-            <div class="book">
-                <div onclick="location.href='bookDetails.html?id=7';" style="cursor: pointer;">
-
-                    <h3>La Horde du Contrevent</h3>
-                    <p>Auteur: Alain Damasio</p>
-                    <p>Note: ★★★★★</p>
-                    <div class="progress-container">
-                        <span class="progress-label">80%</span>
-                        <div class="progress-bar">
-                            <div class="progress" style="width: 80%;"></div>
-                        </div>
+            <div class="book-card">
+                <a href="bookDetails.html?id=1" class="book-link">
+                    <div class="book-image">
+                        <img src="assets/images/jaws.jpg" alt="Jaws" />
                     </div>
-                </div>
+                    <div class="book-infos-container">
+                        <div class="book-title">Jaws</div>
+                        <div class="book-author">Peter Benchley</div>
+                        <div class="book-rating">★★★★★</div>
+                        <div class="book-price">Free</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="book-card">
+                <a href="bookDetails.html?id=4" class="book-link">
+                    <div class="book-image">
+                        <img src="assets/images/sleep.jpeg" alt="Sleep in a Sea of Stars" />
+                    </div>
+                    <div class="book-infos-container">
+                        <div class="book-title">Sleep in a Sea of Stars</div>
+                        <div class="book-author">Christopher Paolini</div>
+                        <div class="book-rating">★★★☆☆</div>
+                        <div class="book-price">Free</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="book-card">
+                <a href="bookDetails.html?id=5" class="book-link">
+                    <div class="book-image">
+                        <img src="assets/images/oz.jpg" alt="The Wonderful Wizard of Oz" />
+                    </div>
+                    <div class="book-infos-container">
+                        <div class="book-title">The Wonderful Wizard of Oz</div>
+                        <div class="book-author">L. Frank Baum</div>
+                        <div class="book-rating">★★★★☆</div>
+                        <div class="book-price">Free</div>
+                    </div>
+                </a>
             </div>
         </div>
     </div>
+    <footer>
+        <nav>
+            <a href="index.html" aria-label="Accueil"><i class="fa-solid fa-book-open"></i></a>
+            <a href="mes-livres.html" aria-label="Mes Livres"><i class="fa-solid fa-bookmark"></i></a>
+            <a href="msg.html" aria-label="Messages"><i class="fa-solid fa-comment"></i></a>
+            <a href="user.html" aria-label="Profil"><i class="fa-solid fa-circle-user"></i></a>
+        </nav>
+    </footer>
     <script type="module" src="js/main.js"></script>
 </body>
 

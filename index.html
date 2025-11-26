@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bibliomaniac</title>
+  <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <link
@@ -15,10 +16,10 @@
 
 <body>
   <header>
-    <a href="index.html">
+    <a href="index.html" aria-label="Accueil">
       <div class="animated-icon">
         <svg class="book-shelf" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid" viewBox="0 0 84 94"
-          height="60" width="60">
+          height="60" width="60" aria-label="Logo Bibliomaniac">
           <path fill="none"
             d="M37.612 92.805L4.487 73.71c-2.75-1.587-4.45-4.52-4.45-7.687L.008 27.877c-.003-3.154 1.676-6.063 4.405-7.634L37.558 1.167c2.73-1.57 6.096-1.566 8.835.013l33.124 19.096c2.75 1.586 4.45 4.518 4.45 7.686l.028 38.146c.002 3.154-1.677 6.063-4.406 7.634L46.445 92.818c-2.73 1.57-6.096 1.566-8.834-.013z" />
           <g class="book-shelf__book book-shelf__book--one" fill-rule="evenodd">
@@ -49,74 +50,25 @@
     <a href="index.html" class="title-link">
       <h1>BIBLIOMANIAC</h1>
     </a>
-    <div class="search-bar">
-      <input type="text" placeholder="Rechercher..." />
+
+    <button id="mobile-search-toggle" aria-label="Ouvrir la recherche">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+
+    <div class="search-bar" id="search-bar">
+      <input type="text" id="search-input" placeholder="Rechercher..." aria-label="Rechercher un livre" />
       <span class="search-icon">🔍</span>
     </div>
-    <div>
-      <a href="user.html">
-        <button class="user-button">
-          <i class="fa-solid fa-user-circle"></i>
-        </button>
-      </a>
-    </div>
+
+    <a href="user.html" class="user-link" aria-label="Profil utilisateur">
+      <i class="fa-solid fa-user-circle"></i>
+    </a>
   </header>
 
   <section class="recent-activities">
     <h1>Activités récentes</h1>
-    <div class="carousel">
-      <div class="book-card">
-        <a href="bookDetails.html?id=3" class="book-link">
-          <div class="book-image">
-            <img src="assets/images/metamo.png" alt="The Metamorphosis" />
-          </div>
-          <div class="book-infos-container">
-            <div class="book-title">The Metamorphosis</div>
-            <div class="book-author">Franz Kafka</div>
-            <div class="book-rating">★★★★★</div>
-            <div class="book-price">$12.99</div>
-          </div>
-        </a>
-      </div>
-      <div class="book-card">
-        <a href="bookDetails.html?id=1" class="book-link">
-          <div class="book-image">
-            <img src="assets/images/jaws.jpg" alt="Jaws" />
-          </div>
-          <div class="book-infos-container">
-            <div class="book-title">Jaws</div>
-            <div class="book-author">Peter Benchley</div>
-            <div class="book-rating">★★★★★</div>
-            <div class="book-price">$19.99</div>
-          </div>
-        </a>
-      </div>
-      <div class="book-card">
-        <a href="bookDetails.html?id=2" class="book-link">
-          <div class="book-image">
-            <img src="assets/images/noth.jpeg" alt="Nothing Else But Miracles" />
-          </div>
-          <div class="book-infos-container">
-            <div class="book-title">Nothing Else But Miracles</div>
-            <div class="book-author">Kate Albus</div>
-            <div class="book-rating">★★★★☆</div>
-            <div class="book-price">$15.99</div>
-          </div>
-        </a>
-      </div>
-      <div class="book-card">
-        <a href="bookDetails.html?id=4" class="book-link">
-          <div class="book-image">
-            <img src="assets/images/sleep.jpeg" alt="Sleep in a Sea of Stars" />
-          </div>
-          <div class="book-infos-container">
-            <div class="book-title">Sleep in a Sea of Stars</div>
-            <div class="book-author">Christopher Paolini</div>
-            <div class="book-rating">★★★☆☆</div>
-            <div class="book-price">$24.99</div>
-          </div>
-        </a>
-      </div>
+    <div class="carousel" id="recent-carousel">
+      <!-- Content injected by main.js -->
     </div>
   </section>
 
@@ -130,20 +82,20 @@
     <div class="categories">
       <div class="carousel">
         <div class="categ-card">
-          <img src="https://picsum.photos/2000/1000/?random" alt="Catégorie" />
-          <div class="categ-title"><var>THRILLER</var></div>
+          <img src="https://picsum.photos/2000/1000/?random" alt="Catégorie Thriller" />
+          <div class="categ-title"><span>THRILLER</span></div>
         </div>
         <div class="categ-card">
-          <img src="https://picsum.photos/2000/1000/?random" alt="Catégorie" />
-          <div class="categ-title"><var>HORROR</var></div>
+          <img src="https://picsum.photos/2000/1000/?random" alt="Catégorie Horror" />
+          <div class="categ-title"><span>HORROR</span></div>
         </div>
         <div class="categ-card">
-          <img src="https://picsum.photos/2000/1000/?random" alt="Catégorie" />
-          <div class="categ-title"><var>DEV PERSO</var></div>
+          <img src="https://picsum.photos/2000/1000/?random" alt="Catégorie Développement Personnel" />
+          <div class="categ-title"><span>DEV PERSO</span></div>
         </div>
         <div class="categ-card">
-          <img src="https://picsum.photos/2000/1000/?random" alt="Catégorie" />
-          <div class="categ-title"><var>AVENTURE</var></div>
+          <img src="https://picsum.photos/2000/1000/?random" alt="Catégorie Aventure" />
+          <div class="categ-title"><span>AVENTURE</span></div>
         </div>
       </div>
     </div>
@@ -151,10 +103,10 @@
 
   <footer>
     <nav>
-      <a href="index.html" class="active"><i class="fa-solid fa-book-open"></i></a>
-      <a href="mes-livres.html"><i class="fa-solid fa-bookmark"></i></a>
-      <a href="msg.html"><i class="fa-solid fa-comment"></i></a>
-      <a href="user.html"><i class="fa-solid fa-circle-user"></i></a>
+      <a href="index.html" class="active" aria-label="Accueil"><i class="fa-solid fa-book-open"></i></a>
+      <a href="mes-livres.html" aria-label="Mes Livres"><i class="fa-solid fa-bookmark"></i></a>
+      <a href="msg.html" aria-label="Messages"><i class="fa-solid fa-comment"></i></a>
+      <a href="user.html" aria-label="Profil"><i class="fa-solid fa-circle-user"></i></a>
     </nav>
   </footer>
   <script type="module" src="js/main.js"></script>

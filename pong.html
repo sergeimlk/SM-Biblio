@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jeu Pong</title>
+    <link rel="stylesheet" href="css/variables.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link rel="icon" type="image/png" href="assets/images/metamo.png">
     <style>
         body {
@@ -14,37 +16,56 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #1a1a2e;
+            background-color: var(--color-primary-dark);
             color: white;
             font-family: 'Inter', sans-serif;
+            overflow: hidden;
         }
 
         .container {
             text-align: center;
+            width: 100%;
+            max-width: 800px;
+            padding: 1rem;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 10;
         }
 
         button {
-            font-size: 2rem;
-            padding: 1rem 2rem;
-            background-color: #0f3460;
+            font-size: 1.2rem;
+            padding: 0.8rem 1.5rem;
+            background-color: var(--color-primary-light);
             color: white;
-            border: solid 2px #c307ba;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+            border: solid 2px var(--color-accent);
             border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0.5rem;
         }
 
         button:hover {
-            background-color: #16213e;
-            border-radius: 100px;
+            background-color: var(--color-accent);
+            color: var(--color-primary-dark);
+            transform: scale(1.05);
         }
 
         canvas {
-            border-radius: 80px;
-            border: solid 2px #c307ba;
+            border-radius: 20px;
+            border: solid 4px var(--color-accent);
             display: none;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.3);
+            max-width: 100%;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
         }
 
         .confetti {
@@ -69,58 +90,66 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1rem;
+            gap: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 3rem;
+            border-radius: 2rem;
+            backdrop-filter: blur(10px);
         }
 
         .difficulty-select {
-            font-size: 1.5rem;
-            padding: 0.5rem;
-            background-color: #0f3460;
+            font-size: 1.2rem;
+            padding: 0.8rem 2rem;
+            background-color: var(--color-primary-light);
             color: white;
-            border: solid 2px #c307ba;
-            border-radius: 5px;
+            border: solid 2px var(--color-accent);
+            border-radius: 20px;
             cursor: pointer;
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-            appearance: none;
-            /* Remove default styling */
-            -webkit-appearance: none;
-            /* Remove default styling for Safari */
-            -moz-appearance: none;
-            /* Remove default styling for Firefox */
-            background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="white" d="M2 0L0 2h4zM2 5L0 3h4z"/></svg>');
-            background-repeat: no-repeat;
-            background-position: right 0.5rem top 50%;
-            background-size: 0.65rem auto;
+            outline: none;
         }
 
-        .difficulty-select:hover {
-            background-color: #16213e;
-            border-color: #e94560;
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to bottom, #e8c84c, #ffffff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
     </style>
 </head>
 
 <body>
+    <a href="msg.html" class="back-button" aria-label="Retour aux messages">
+        <i class="fa-solid fa-circle-chevron-left"></i>
+    </a>
+
     <div class="container">
-        <div class="menu">
-            <select class="difficulty-select" id="difficulty">
+        <div class="menu" id="menu">
+            <h1>PONG</h1>
+            <select class="difficulty-select" id="difficulty" aria-label="Choisir la difficulté">
                 <option value="easy">Facile</option>
-                <option value="medium">Moyen</option>
+                <option value="medium" selected>Moyen</option>
                 <option value="hard">Difficile</option>
             </select>
-            <button onclick="startPongGame()">Lancer le jeu Pong</button>
-            <div class="controls">
-                <button onclick="pauseGame()">Pause</button>
-                <button onclick="resumeGame()">Play</button>
-            </div>
+            <button onclick="startPongGame()">Lancer le jeu</button>
         </div>
+
+        <div id="game-controls" style="display: none; margin-bottom: 1rem;">
+            <button onclick="pauseGame()">Pause</button>
+            <button onclick="resumeGame()">Reprendre</button>
+            <button onclick="stopGame()">Quitter</button>
+        </div>
+
         <canvas id="pongCanvas" width="800" height="400"></canvas>
     </div>
+
     <script>
         let playerScore = 0;
         let aiScore = 0;
         const winningScore = 5;
         let gamePaused = false;
+        let gameRunning = false;
         let playerY = 0;
         let aiY = 0;
         let ballX = 0;
@@ -132,29 +161,31 @@
         let ballSize = 10;
         let difficulty = 'medium';
         let aiSpeed = 0.1;
+        let animationId;
 
         function startPongGame() {
             const canvas = document.getElementById('pongCanvas');
             const context = canvas.getContext('2d');
+
+            document.getElementById('menu').style.display = 'none';
+            document.getElementById('game-controls').style.display = 'block';
             canvas.style.display = 'block';
+
+            gameRunning = true;
+            gamePaused = false;
+            playerScore = 0;
+            aiScore = 0;
 
             difficulty = document.getElementById('difficulty').value;
             switch (difficulty) {
-                case 'easy':
-                    aiSpeed = 0.05;
-                    break;
-                case 'medium':
-                    aiSpeed = 0.1;
-                    break;
-                case 'hard':
-                    aiSpeed = 0.2;
-                    break;
+                case 'easy': aiSpeed = 0.05; break;
+                case 'medium': aiSpeed = 0.1; break;
+                case 'hard': aiSpeed = 0.2; break;
             }
 
             playerY = canvas.height / 2 - paddleHeight / 2;
             aiY = canvas.height / 2 - paddleHeight / 2;
-            ballX = canvas.width / 2;
-            ballY = canvas.height / 2;
+            resetBall(canvas);
 
             function drawRect(x, y, width, height, color) {
                 context.fillStyle = color;
@@ -170,16 +201,26 @@
             }
 
             function draw() {
-                drawRect(0, 0, canvas.width, canvas.height, 'rgba(0, 0, 0, 0.5)');
+                // Clear canvas
+                context.clearRect(0, 0, canvas.width, canvas.height);
+
+                // Net
+                for (let i = 0; i < canvas.height; i += 40) {
+                    drawRect(canvas.width / 2 - 1, i, 2, 20, 'rgba(255,255,255,0.2)');
+                }
+
                 drawRect(0, playerY, paddleWidth, paddleHeight, '#e94560');
                 drawRect(canvas.width - paddleWidth, aiY, paddleWidth, paddleHeight, '#e94560');
                 drawCircle(ballX, ballY, ballSize, '#e94560');
-                context.fillText(`Player: ${playerScore}`, 50, 50);
-                context.fillText(`AI: ${aiScore}`, canvas.width - 100, 50);
+
+                context.font = "30px Inter";
+                context.fillStyle = "white";
+                context.fillText(playerScore, canvas.width / 4, 50);
+                context.fillText(aiScore, 3 * canvas.width / 4, 50);
             }
 
             function update() {
-                if (gamePaused) return;
+                if (gamePaused || !gameRunning) return;
 
                 ballX += ballSpeedX;
                 ballY += ballSpeedY;
@@ -191,56 +232,75 @@
                 if (ballX - ballSize < 0) {
                     if (ballY > playerY && ballY < playerY + paddleHeight) {
                         ballSpeedX = -ballSpeedX;
+                        // Add some spin/variation
+                        let deltaY = ballY - (playerY + paddleHeight / 2);
+                        ballSpeedY = deltaY * 0.35;
                     } else {
                         aiScore++;
-                        resetBall();
+                        resetBall(canvas);
                     }
                 }
 
                 if (ballX + ballSize > canvas.width) {
                     if (ballY > aiY && ballY < aiY + paddleHeight) {
                         ballSpeedX = -ballSpeedX;
+                        let deltaY = ballY - (aiY + paddleHeight / 2);
+                        ballSpeedY = deltaY * 0.35;
                     } else {
                         playerScore++;
-                        resetBall();
+                        resetBall(canvas);
                     }
                 }
 
-                aiY += (ballY - (aiY + paddleHeight / 2)) * aiSpeed;
+                // AI Movement
+                let aiCenter = aiY + paddleHeight / 2;
+                if (aiCenter < ballY - 35) {
+                    aiY += 6;
+                } else if (aiCenter > ballY + 35) {
+                    aiY -= 6;
+                }
 
                 if (playerScore >= winningScore) {
                     celebrateWin();
+                    stopGame();
                 } else if (aiScore >= winningScore) {
-                    window.location.href = 'msg.html';
+                    alert("Game Over!");
+                    stopGame();
                 }
             }
 
-            function resetBall() {
-                ballX = canvas.width / 2;
-                ballY = canvas.height / 2;
-                ballSpeedX = -ballSpeedX;
-            }
-
             function gameLoop() {
-                update();
-                draw();
-                requestAnimationFrame(gameLoop);
+                if (gameRunning) {
+                    update();
+                    draw();
+                    animationId = requestAnimationFrame(gameLoop);
+                }
             }
 
             canvas.addEventListener('mousemove', (event) => {
                 const rect = canvas.getBoundingClientRect();
-                playerY = event.clientY - rect.top - paddleHeight / 2;
+                const root = document.documentElement;
+                let mouseY = event.clientY - rect.top - root.scrollTop;
+                playerY = mouseY - paddleHeight / 2;
             });
 
-            document.addEventListener('keydown', (event) => {
-                if (event.key === 'ArrowUp') {
-                    playerY -= 20;
-                } else if (event.key === 'ArrowDown') {
-                    playerY += 20;
-                }
-            });
+            // Touch support
+            canvas.addEventListener('touchmove', (event) => {
+                event.preventDefault();
+                const rect = canvas.getBoundingClientRect();
+                const touch = event.touches[0];
+                let touchY = touch.clientY - rect.top;
+                playerY = touchY - paddleHeight / 2;
+            }, { passive: false });
 
             gameLoop();
+        }
+
+        function resetBall(canvas) {
+            ballX = canvas.width / 2;
+            ballY = canvas.height / 2;
+            ballSpeedX = -ballSpeedX;
+            ballSpeedY = 5;
         }
 
         function pauseGame() {
@@ -249,7 +309,14 @@
 
         function resumeGame() {
             gamePaused = false;
-            requestAnimationFrame(startPongGame);
+        }
+
+        function stopGame() {
+            gameRunning = false;
+            cancelAnimationFrame(animationId);
+            document.getElementById('menu').style.display = 'flex';
+            document.getElementById('game-controls').style.display = 'none';
+            document.getElementById('pongCanvas').style.display = 'none';
         }
 
         function celebrateWin() {

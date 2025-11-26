@@ -1,21 +1,88 @@
-
 /**
  * Main JavaScript file for Bibliomaniac
- * Handles data fetching and page rendering
+ * Handles data fetching from Google Books API, page rendering, and search functionality
  */
 
-const DATA_URL = 'assets/data/datas.json';
+const GOOGLE_BOOKS_API = 'https://www.googleapis.com/books/v1/volumes';
 
-async function getData() {
+async function getGoogleBooks() {
     try {
-        const response = await fetch(DATA_URL);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        // Check if we have cached data
+        const cachedData = localStorage.getItem('bibliomaniac_books');
+        const cacheTimestamp = localStorage.getItem('bibliomaniac_books_timestamp');
+        const now = Date.now();
+        const cacheExpiry = 24 * 60 * 60 * 1000; // 24 hours
+
+        // Return cached data if it's still valid
+        if (cachedData && cacheTimestamp && (now - parseInt(cacheTimestamp)) < cacheExpiry) {
+            console.log('Using cached book data');
+            return JSON.parse(cachedData);
         }
-        const data = await response.json();
-        return data;
+
+        console.log('Fetching fresh book data from Google Books API');
+
+        // Search for free books available for reading
+        const queries = [
+            'subject:fiction+filter:free-ebooks',
+            'subject:classics+filter:free-ebooks',
+            'subject:science+fiction+filter:free-ebooks',
+            'subject:fantasy+filter:free-ebooks',
+            'subject:mystery+filter:free-ebooks'
+        ];
+
+        const allBooks = [];
+
+        for (const query of queries) {
+            const response = await fetch(`${GOOGLE_BOOKS_API}?q=${query}&maxResults=8&langRestrict=en`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            if (data.items) {
+                allBooks.push(...data.items);
+            }
+        }
+
+        // Transform Google Books data to our format
+        const books = allBooks.slice(0, 20).map((item, index) => {
+            const volumeInfo = item.volumeInfo;
+            const saleInfo = item.saleInfo;
+
+            return {
+                id: index + 1,
+                googleId: item.id,
+                title: volumeInfo.title || 'Unknown Title',
+                author: volumeInfo.authors ? volumeInfo.authors[0] : 'Unknown Author',
+                aboutAuthor: volumeInfo.description ? volumeInfo.description.substring(0, 300) + '...' : 'No description available.',
+                price: saleInfo.saleability === 'FREE' ? 'Free' : (saleInfo.listPrice ? `$${saleInfo.listPrice.amount}` : 'Free'),
+                numberOfBooks: Math.floor(Math.random() * 10) + 1,
+                rating: volumeInfo.averageRating || Math.floor(Math.random() * 3) + 3,
+                image: volumeInfo.imageLinks?.thumbnail || volumeInfo.imageLinks?.smallThumbnail || 'assets/images/metamo.png',
+                category: volumeInfo.categories ? volumeInfo.categories[0] : 'General',
+                publicationDate: volumeInfo.publishedDate || 'Unknown',
+                description: volumeInfo.description || 'No description available.',
+                previewLink: volumeInfo.previewLink,
+                infoLink: volumeInfo.infoLink
+            };
+        });
+
+        const result = { books };
+
+        // Cache the data
+        localStorage.setItem('bibliomaniac_books', JSON.stringify(result));
+        localStorage.setItem('bibliomaniac_books_timestamp', now.toString());
+
+        return result;
     } catch (error) {
         console.error("Erreur lors du chargement des données:", error);
+
+        // Try to return cached data even if expired, as fallback
+        const cachedData = localStorage.getItem('bibliomaniac_books');
+        if (cachedData) {
+            console.log('Using expired cached data as fallback');
+            return JSON.parse(cachedData);
+        }
+
         return null;
     }
 }
@@ -27,12 +94,13 @@ function getUrlParameter(name) {
 
 function generateStars(rating) {
     const maxStars = 5;
-    const stars = '★'.repeat(Math.floor(rating)) + '☆'.repeat(maxStars - Math.floor(rating));
-    return stars;
+    const fullStars = Math.floor(rating);
+    const emptyStars = maxStars - fullStars;
+    return '★'.repeat(fullStars) + '☆'.repeat(emptyStars);
 }
 
 async function init() {
-    const data = await getData();
+    const data = await getGoogleBooks();
     if (!data) return;
 
     const path = window.location.pathname;
@@ -50,58 +118,29 @@ async function init() {
     }
 
     // Global event listeners
-    setupGlobalListeners();
+    setupGlobalListeners(data);
 }
 
 function renderIndexPage(data) {
+    // Render recent activities (first 4 books)
+    const recentContainer = document.getElementById("recent-carousel");
+    if (recentContainer) {
+        recentContainer.innerHTML = "";
+        data.books.slice(0, 4).forEach((book) => {
+            const bookCard = createBookCard(book);
+            recentContainer.appendChild(bookCard);
+        });
+    }
+
+    // Render popular section (all books)
     const popularContainer = document.querySelector(".popular .carousel");
     if (!popularContainer) return;
 
     popularContainer.innerHTML = "";
 
+    // Render all books in the popular section
     data.books.forEach((book) => {
-        const bookCard = document.createElement("div");
-        bookCard.classList.add("book-card");
-
-        const bookLink = document.createElement("a");
-        bookLink.href = `bookDetails.html?id=${book.id}`;
-        bookLink.classList.add("book-link");
-        bookLink.style.textDecoration = 'none';
-
-        const bookImageDiv = document.createElement("div");
-        bookImageDiv.classList.add("book-image");
-        const bookImage = document.createElement("img");
-        bookImage.src = book.image;
-        bookImage.alt = book.title;
-        bookImageDiv.appendChild(bookImage);
-
-        const bookInfosDiv = document.createElement("div");
-        bookInfosDiv.classList.add("book-infos-container");
-
-        const bookTitle = document.createElement("div");
-        bookTitle.classList.add("book-title");
-        bookTitle.textContent = book.title;
-
-        const bookAuthor = document.createElement("div");
-        bookAuthor.classList.add("book-author");
-        bookAuthor.textContent = book.author;
-
-        const bookRating = document.createElement("div");
-        bookRating.classList.add("book-rating");
-        bookRating.textContent = generateStars(book.rating);
-
-        const bookPrice = document.createElement("div");
-        bookPrice.classList.add("book-price");
-        bookPrice.textContent = book.price;
-
-        bookInfosDiv.appendChild(bookTitle);
-        bookInfosDiv.appendChild(bookAuthor);
-        bookInfosDiv.appendChild(bookRating);
-        bookInfosDiv.appendChild(bookPrice);
-
-        bookLink.appendChild(bookImageDiv);
-        bookLink.appendChild(bookInfosDiv);
-        bookCard.appendChild(bookLink);
+        const bookCard = createBookCard(book);
         popularContainer.appendChild(bookCard);
     });
 }
@@ -110,57 +149,118 @@ function renderMesLivresPage(data) {
     const bookListContainer = document.getElementById("book-list");
     if (!bookListContainer) return;
 
-    bookListContainer.innerHTML = "";
+    const favRadio = document.getElementById('fav');
+    const downRadio = document.getElementById('down');
+    const searchInput = document.getElementById('search-input');
 
-    data.books.forEach((book) => {
-        const bookDiv = document.createElement("div");
-        bookDiv.classList.add("book");
+    let currentFilter = 'fav'; // Default
+    let searchTerm = '';
 
-        const bookLink = document.createElement("a");
-        bookLink.href = `bookDetails.html?id=${book.id}`;
-        bookLink.classList.add("book-link");
+    const filterAndRender = () => {
+        bookListContainer.innerHTML = "";
 
-        const bookImageDiv = document.createElement("div");
-        bookImageDiv.classList.add("book-image");
-        const bookImage = document.createElement("img");
-        bookImage.src = book.image;
-        bookImage.alt = book.title;
-        bookImageDiv.appendChild(bookImage);
+        let filteredBooks = data.books;
 
-        const bookInfosDiv = document.createElement("div");
-        bookInfosDiv.classList.add("book-infos-container");
+        // Filter by tab
+        if (currentFilter === 'down') {
+            // Simulate downloaded books (e.g., even IDs)
+            filteredBooks = filteredBooks.filter(book => book.id % 2 === 0);
+        }
+        // 'fav' shows all for now
 
-        const bookTitle = document.createElement("div");
-        bookTitle.classList.add("book-title");
-        bookTitle.textContent = book.title;
+        // Filter by search
+        if (searchTerm) {
+            const lowerTerm = searchTerm.toLowerCase();
+            filteredBooks = filteredBooks.filter(book =>
+                book.title.toLowerCase().includes(lowerTerm) ||
+                book.author.toLowerCase().includes(lowerTerm)
+            );
+        }
 
-        const bookAuthor = document.createElement("div");
-        bookAuthor.classList.add("book-author");
-        bookAuthor.textContent = book.author;
+        if (filteredBooks.length === 0) {
+            bookListContainer.innerHTML = "<p style='text-align:center; width:100%; color: var(--color-text-secondary); margin-top: 2rem;'>Aucun livre trouvé.</p>";
+        } else {
+            filteredBooks.forEach((book) => {
+                const bookCard = createBookCard(book);
+                bookListContainer.appendChild(bookCard);
+            });
+        }
+    };
 
-        const bookRating = document.createElement("div");
-        bookRating.classList.add("book-rating");
-        bookRating.textContent = `${generateStars(book.rating)} Note`;
+    // Event Listeners
+    if (favRadio) {
+        favRadio.addEventListener('change', () => {
+            if (favRadio.checked) {
+                currentFilter = 'fav';
+                filterAndRender();
+            }
+        });
+    }
 
-        const bookPrice = document.createElement("div");
-        bookPrice.classList.add("book-price");
-        bookPrice.textContent = book.price;
+    if (downRadio) {
+        downRadio.addEventListener('change', () => {
+            if (downRadio.checked) {
+                currentFilter = 'down';
+                filterAndRender();
+            }
+        });
+    }
 
-        const bookmark = document.createElement("div");
-        bookmark.classList.add("bookmark");
-        bookmark.innerHTML = "&#9733;";
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            searchTerm = e.target.value;
+            filterAndRender();
+        });
+    }
 
-        bookInfosDiv.appendChild(bookTitle);
-        bookInfosDiv.appendChild(bookAuthor);
-        bookInfosDiv.appendChild(bookRating);
-        bookInfosDiv.appendChild(bookPrice);
-        bookInfosDiv.appendChild(bookmark);
+    // Initial render
+    filterAndRender();
+}
 
-        bookLink.appendChild(bookImageDiv);
-        bookLink.appendChild(bookInfosDiv);
-        bookDiv.appendChild(bookLink);
-        bookListContainer.appendChild(bookDiv);
-    });
+function createBookCard(book) {
+    const bookCard = document.createElement("div");
+    bookCard.classList.add("book-card");
+
+    const bookLink = document.createElement("a");
+    bookLink.href = `bookDetails.html?id=${book.id}`;
+    bookLink.classList.add("book-link");
+
+    const bookImageDiv = document.createElement("div");
+    bookImageDiv.classList.add("book-image");
+    const bookImage = document.createElement("img");
+    bookImage.src = book.image;
+    bookImage.alt = book.title;
+    bookImageDiv.appendChild(bookImage);
+
+    const bookInfosDiv = document.createElement("div");
+    bookInfosDiv.classList.add("book-infos-container");
+
+    const bookTitle = document.createElement("div");
+    bookTitle.classList.add("book-title");
+    bookTitle.textContent = book.title;
+
+    const bookAuthor = document.createElement("div");
+    bookAuthor.classList.add("book-author");
+    bookAuthor.textContent = book.author;
+
+    const bookRating = document.createElement("div");
+    bookRating.classList.add("book-rating");
+    bookRating.textContent = generateStars(book.rating);
+
+    const bookPrice = document.createElement("div");
+    bookPrice.classList.add("book-price");
+    bookPrice.textContent = book.price;
+
+    bookInfosDiv.appendChild(bookTitle);
+    bookInfosDiv.appendChild(bookAuthor);
+    bookInfosDiv.appendChild(bookRating);
+    bookInfosDiv.appendChild(bookPrice);
+
+    bookLink.appendChild(bookImageDiv);
+    bookLink.appendChild(bookInfosDiv);
+    bookCard.appendChild(bookLink);
+
+    return bookCard;
 }
 
 function renderBookDetailsPage(data) {
@@ -169,24 +269,40 @@ function renderBookDetailsPage(data) {
 
     const id = Number(getUrlParameter("id"));
     if (!id) {
+        // Hide loader
+        const loader = document.getElementById('book-loader');
+        if (loader) loader.classList.add('hidden');
+
         bookDetailsContainer.innerHTML = "<p>Livre non spécifié.</p>";
         return;
     }
 
     const selectedBook = data.books.find((book) => book.id === id);
 
+    // Hide loader
+    const loader = document.getElementById('book-loader');
+    if (loader) loader.classList.add('hidden');
+
     if (selectedBook) {
         bookDetailsContainer.innerHTML = `
       <img src="${selectedBook.image}" alt="${selectedBook.title}" />
-      <h3 class="details-title">${selectedBook.title}</h3>
-      <span class="book-info">
-        <p class="book-author"> ${selectedBook.author}</p>
-        <p class="book-date">Date de publication : ${selectedBook.publicationDate}</p>
-      </span>
-      <span class="solid-stars" aria-label="Évaluation du livre : ${selectedBook.rating} étoiles">
-        ${generateStars(selectedBook.rating)}
-      </span>
+      <div style="flex: 1;">
+        <h3 class="details-title">${selectedBook.title}</h3>
+        <span class="book-info">
+            <p class="book-author"> ${selectedBook.author}</p>
+            <p class="book-date">Date de publication : ${selectedBook.publicationDate}</p>
+        </span>
+        <span class="solid-stars" aria-label="Évaluation du livre : ${selectedBook.rating} étoiles">
+            ${generateStars(selectedBook.rating)}
+        </span>
+      </div>
     `;
+
+        // Update breadcrumb title
+        const breadcrumbTitle = document.getElementById('breadcrumb-title');
+        if (breadcrumbTitle) {
+            breadcrumbTitle.textContent = selectedBook.title;
+        }
 
         const linkAuthor = document.getElementById("link-author");
         if (linkAuthor) {
@@ -199,7 +315,16 @@ function renderBookDetailsPage(data) {
         <h2>À propos de cet e-book</h2>
         <br />
         <p>${selectedBook.description}</p>
+        ${selectedBook.previewLink ? `<br /><a href="${selectedBook.previewLink}" target="_blank" style="color: var(--color-accent); text-decoration: underline;">Lire un aperçu sur Google Books</a>` : ''}
         `;
+        }
+
+        // Add event listener for read button
+        const readBookBtn = document.getElementById('read-book-btn');
+        if (readBookBtn) {
+            readBookBtn.addEventListener('click', () => {
+                window.location.href = `reader.html?id=${selectedBook.id}`;
+            });
         }
     } else {
         bookDetailsContainer.innerHTML = "<p>Livre non trouvé.</p>";
@@ -240,7 +365,7 @@ function renderAuthorDetailsPage(data) {
     }
 }
 
-function setupGlobalListeners() {
+function setupGlobalListeners(data) {
     // Back button
     const backButton = document.querySelector('.back-button');
     if (backButton) {
@@ -249,13 +374,50 @@ function setupGlobalListeners() {
         });
     }
 
-    // Bookmarks toggle
-    document.addEventListener('click', (e) => {
-        if (e.target.classList.contains('bookmark')) {
-            e.preventDefault(); // Prevent navigation if inside a link
-            e.target.textContent = e.target.textContent.trim() === '★' ? '☆' : '★';
+    // Search functionality for Index page
+    const searchInput = document.getElementById('search-input');
+    // Only attach if we are NOT on mes-livres.html, because mes-livres handles its own search
+    if (searchInput && !document.getElementById('book-list')) {
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            handleSearch(searchTerm, data);
+        });
+    }
+
+    // Mobile Search Toggle
+    const mobileSearchToggle = document.getElementById('mobile-search-toggle');
+    const searchBar = document.getElementById('search-bar');
+    if (mobileSearchToggle && searchBar) {
+        mobileSearchToggle.addEventListener('click', () => {
+            searchBar.classList.toggle('active');
+            if (searchBar.classList.contains('active')) {
+                const input = searchBar.querySelector('input');
+                if (input) input.focus();
+            }
+        });
+    }
+}
+
+function handleSearch(searchTerm, data) {
+    const popularContainer = document.querySelector(".popular .carousel");
+
+    // Filter logic
+    const filteredBooks = data.books.filter(book =>
+        book.title.toLowerCase().includes(searchTerm) ||
+        book.author.toLowerCase().includes(searchTerm)
+    );
+
+    // Update Popular Section
+    if (popularContainer) {
+        popularContainer.innerHTML = "";
+        if (filteredBooks.length > 0) {
+            filteredBooks.forEach(book => {
+                popularContainer.appendChild(createBookCard(book));
+            });
+        } else {
+            popularContainer.innerHTML = "<p>Aucun livre trouvé.</p>";
         }
-    });
+    }
 }
 
 // Start the app
