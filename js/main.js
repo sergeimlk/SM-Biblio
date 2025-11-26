@@ -65,32 +65,42 @@ function renderIndexPage(data) {
 
         const bookLink = document.createElement("a");
         bookLink.href = `bookDetails.html?id=${book.id}`;
+        bookLink.classList.add("book-link");
         bookLink.style.textDecoration = 'none';
-        bookLink.style.color = 'inherit';
 
+        const bookImageDiv = document.createElement("div");
+        bookImageDiv.classList.add("book-image");
         const bookImage = document.createElement("img");
-        bookImage.src = book.image; // Ensure paths in JSON are correct or adjust here
+        bookImage.src = book.image;
         bookImage.alt = book.title;
+        bookImageDiv.appendChild(bookImage);
 
-        const bookTitle = document.createElement("h3");
+        const bookInfosDiv = document.createElement("div");
+        bookInfosDiv.classList.add("book-infos-container");
+
+        const bookTitle = document.createElement("div");
+        bookTitle.classList.add("book-title");
         bookTitle.textContent = book.title;
 
-        const bookAuthor = document.createElement("p");
+        const bookAuthor = document.createElement("div");
+        bookAuthor.classList.add("book-author");
         bookAuthor.textContent = book.author;
-
-        const bookPrice = document.createElement("p");
-        bookPrice.textContent = book.price;
 
         const bookRating = document.createElement("div");
         bookRating.classList.add("book-rating");
         bookRating.textContent = generateStars(book.rating);
 
-        bookLink.appendChild(bookImage);
-        bookLink.appendChild(bookTitle);
-        bookLink.appendChild(bookAuthor);
-        bookLink.appendChild(bookPrice);
-        bookLink.appendChild(bookRating);
+        const bookPrice = document.createElement("div");
+        bookPrice.classList.add("book-price");
+        bookPrice.textContent = book.price;
 
+        bookInfosDiv.appendChild(bookTitle);
+        bookInfosDiv.appendChild(bookAuthor);
+        bookInfosDiv.appendChild(bookRating);
+        bookInfosDiv.appendChild(bookPrice);
+
+        bookLink.appendChild(bookImageDiv);
+        bookLink.appendChild(bookInfosDiv);
         bookCard.appendChild(bookLink);
         popularContainer.appendChild(bookCard);
     });
