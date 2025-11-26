@@ -169,7 +169,6 @@ header h1 {
     margin-bottom: 5px;
 }
 
-.carousel .activity-card,
 .carousel .categ-card {
     flex: 0 0 auto;
     scroll-snap-align: start;
@@ -182,14 +181,12 @@ header h1 {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.carousel .activity-card img,
 .carousel .categ-card img {
     width: 100%;
     height: auto;
     border-radius: 0.625rem;
 }
 
-.carousel .activity-card:hover,
 .carousel .categ-card:hover {
     transform: scale(1.1);
     box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.2);
