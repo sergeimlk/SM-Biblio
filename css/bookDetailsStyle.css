@@ -1,0 +1,504 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+
+/*HEADER*/
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem;
+    background-color: #3d1e54;
+}
+
+.titre-page h1 {
+    background: linear-gradient(to bottom, #e8c84c, #ffffff);
+
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-decoration: none;
+
+}
+
+.header-container h1 {
+    font-size: 1rem;
+    color: white;
+    width: 100%;
+    text-align: center;
+}
+
+.header-container a {
+    text-decoration: none;
+
+}
+
+.header-container i {
+    border: solid white;
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5em;
+    margin: 0.3rem;
+    background-color: white;
+    color: #3d1e54;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.iconShare, .iconFav {
+    display: none;
+}
+
+.filAriane {
+    padding: 0 0 1rem 15rem;
+    display: none;
+    font-size: 1rem;
+    color: white;
+    text-align: left;
+
+}
+
+.filAriane a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-size: 25px;
+}
+
+.filAriane a:hover {
+    color: #f39c12;
+}
+
+.filAriane span {
+    margin: 0 0.5rem;
+    color: white;
+}
+
+/*MAIN BOOK*/
+
+#bookDetails-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    background-color: #3d1e54;
+    color: white;
+}
+
+#bookDetails-container img {
+    width: 60%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+#book-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background-color: #3d1e54;
+    color: white;
+}
+
+.author-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background-color: #3d1e54;
+    color: white;
+}
+
+.author-info {
+    display: flex;
+    gap: 1rem;
+}
+
+#bookDetails-container p {
+    text-align: center;
+    font-size: 1rem;
+}
+
+.solid-stars {
+    color: #f7c648;
+    font-size: 50px;
+}
+
+/*MAIN AUTHOR*/
+.authorDetails-container {
+    display: flex;
+    padding: 1.5rem;
+    background-color: #3d1e54;
+    color: white;
+}
+
+.authorDetails-container img {
+    object-fit: cover;
+    border-radius: 50%;
+    height: 8rem;
+    width: 8rem;
+}
+
+.author-details {
+    text-align: right;
+    align-items: right;
+}
+
+
+.author-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background-color: #3d1e54;
+    color: white;
+}
+
+.author-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background-color: #3d1e54;
+    color: white;
+}
+
+#bookDetails-container p {
+    text-align: center;
+
+}
+
+.solid-stars i {
+    color: #f7c648;
+}
+
+/*ABOUT*/
+.about h2 {
+    font-size: 2rem;
+    color: #3d1e54;
+
+}
+
+
+.about p {
+    font-size: 1rem;
+
+}
+
+/*NAV-ABOUT*/
+
+.nav-about {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    margin: 0;
+    background-color: #3d1e54;
+}
+
+.nav-about a {
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    padding: 0.6rem;
+    transition: background-color 0.3s;
+}
+
+.nav-about a.active-page {
+    text-decoration: none;
+}
+
+.active-page {
+    background-color: #f2f1f342;
+}
+
+/*CTA*/
+
+.about, .about-container {
+    padding: 2rem;
+}
+
+.cta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* padding: 1.5rem 3rem 1.5rem 3rem; */
+
+}
+
+.cta button {
+    font-size: 2rem;
+
+}
+
+
+.cta-btn-phones {
+    border-radius: 50%;
+    width: 4rem;
+    height: 4rem;
+    background-color: #3d1e54;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 1rem;
+    overflow: hidden;
+}
+
+.cta-btn-phones .text-audio {
+    display: none;
+    font-size: 1.2rem;
+}
+
+.cta-btn-read {
+    background-color: #3d1e54;
+    color: white;
+    height: 4rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/*MEDIA QUERIES DESKTOP*/
+
+@media (min-width: 1024px) {
+
+    main {
+        background-color: #4D3857;
+    }
+
+    #bookDetailsMain-container, #author-main-container {
+        /* background: linear-gradient(#4D3857, #2C1A34); */
+        background-color: #3d1e54;
+        border-top-left-radius: 100px;
+        border-top-right-radius: 100px;
+        padding: 3rem;
+        margin: 0 8rem;
+    }
+
+
+    #bookDetails-container h3 {
+        font-size: 3rem;
+        padding: 0 1rem 0 1rem;
+        min-width: 14rem;
+        max-width: 27rem;
+    }
+
+    #bookDetails-container p {
+        font-size: 1.5rem;
+        text-align: left;
+        padding: 0 1rem 0 1rem;
+    }
+
+    .solid-stars {
+        position: absolute;
+        right: 13rem;
+    }
+
+
+    .header-container h1 {
+        display: none;
+        position: absolute;
+        font-size: 5rem;
+        padding-top: 10rem;
+    }
+
+    .header-container {
+        background-color: #4D3857;
+        display: grid;
+        justify-content: flex-end;
+        padding: 0;
+    }
+
+    .filAriane {
+        display: block;
+    }
+
+    .header-container i {
+        position: relative;
+        font-size: 1.8rem;
+        border-radius: 50%;
+        width: 3.5rem;
+        height: 3.5rem;
+        margin: 1rem 3rem 1rem 1rem;
+        top: 18rem;
+        right: 8rem;
+    }
+
+    .iconFav, .iconShare {
+        display: block;
+        position: absolute;
+        right: 10rem;
+        font-size: 2rem;
+        color: white;
+    }
+
+    .iconFav {
+        top: 30rem;
+        right: 18rem;
+    }
+
+    .iconShare {
+        top: 24.5rem;
+        right: 18rem;
+    }
+
+    .header-container .fa-backward {
+        display: none;
+    }
+
+    .book-details {
+        align-items: flex-start;
+    }
+
+    .book-info p {
+        text-align: left;
+    }
+
+    .book-author, .book-date {
+        text-align: left;
+    }
+
+    #bookDetails-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        margin: 0 5rem;
+    }
+
+    .authorDetails-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        margin: 0 5rem;
+    }
+
+    #bookDetails-container img {
+
+        top: 2rem;
+        width: 20rem;
+    }
+
+    .solid-stars i {
+        font-size: 2rem;
+    }
+
+    .about-container {
+        margin: 0 5rem 0rem 5rem;
+        background-color: #fff;
+
+    }
+
+    .nav-about {
+        margin: 5rem 5rem 0 5rem;
+        padding-top: 1rem;
+        font-size: 1.4rem;
+
+    }
+
+    .nav-about a {
+        padding: 2rem;
+        width: 30rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .author-infos p {
+        font-size: 2rem;
+    }
+
+
+    #book-details h3 {
+        font-size: 3rem;
+    }
+
+    .book-info p {
+        font-size: 2rem;
+    }
+
+    .about, .about-container {
+        padding: 5rem;
+        font-size: 1rem;
+    }
+
+
+
+    .cta {
+        padding: 5rem;
+        justify-content: space-around;
+
+    }
+
+    .cta button {
+
+        padding: 3rem;
+    }
+
+    .book-info p, h3 {
+        font-size: 2rem;
+    }
+
+    .about {
+        padding: 5rem;
+        font-size: 1.8rem;
+    }
+
+    .cta {
+        padding: 5rem;
+        justify-content: space-around;
+
+    }
+
+    .cta button {
+
+        padding: 3rem;
+    }
+
+
+    .cta-btn-phones {
+        width: auto;
+        border-radius: 5rem;
+        padding: 0.5rem 1rem;
+    }
+
+    .cta-btn-phones .text-audio {
+        display: inline-block;
+        font-size: 2rem;
+    }
+
+    .cta-btn-read {
+        background-color: #3d1e54;
+        color: white;
+        height: 4rem;
+        padding: 0.5rem 1rem;
+        border: none;
+        width: auto;
+        border-radius: 5rem;
+        cursor: pointer;
+    }
+
+
+
+}

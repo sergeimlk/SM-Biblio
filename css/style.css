@@ -1,0 +1,433 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f5f5f5;
+    margin-top: 5rem;
+    padding: 0;
+    overflow-x: hidden;
+    /* Prevent horizontal scrolling */
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    /* Decrease padding to reduce navbar height */
+    background: linear-gradient(to top, #4D3857, #3d1e54);
+    /* Dark violet gradient */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1000;
+    height: 5rem;
+    /* Garde la hauteur de la navbar inchangée */
+}
+
+
+header h1 {
+    font-size: 2rem;
+    flex-grow: 1;
+
+    background: linear-gradient(to bottom, #e8c84c, #ffffff);
+
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-decoration: none;
+
+}
+
+.search-bar {
+    margin-right: 2rem;
+    display: flex;
+    align-items: center;
+    background-color: #e5e5e5;
+    padding: 0.25rem 0.5rem;
+    /* Decrease padding to reduce searchbar height */
+    border-radius: 0.625rem;
+    margin-left: auto;
+    /* Align to the right */
+}
+
+.search-bar input {
+    border: none;
+    background: none;
+    padding: 0.25rem;
+    /* Decrease padding to reduce navbar height */
+}
+
+.carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 2rem;
+    gap: 1rem;
+    align-items: center;
+}
+
+.popular h2 {
+    padding-top: 5rem;
+    font-size: 3rem;
+    color: white;
+
+}
+
+.popular a {
+    text-decoration: none;
+}
+
+.book-rating {
+    color: #fdd835;
+}
+
+.carousel .activity-card,
+.carousel .book-card,
+.carousel .categ-card {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    width: 200px;
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 0.625rem;
+    box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.carousel .activity-card img,
+.carousel .book-card img,
+.carousel .categ-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 0.625rem;
+}
+
+.carousel .activity-card:hover,
+.carousel .book-card:hover,
+.carousel .categ-card:hover {
+    transform: scale(1.1);
+    /* Enlarge the card on hover */
+    box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.2);
+    /* Add a larger shadow on hover */
+}
+
+.popular {
+    background-color: #3d1e54;
+    border-radius: 5rem;
+    text-align: center;
+    margin: 0 3rem;
+    padding-bottom: 3rem;
+}
+
+/* Navigation */
+/* Navigation */
+footer {
+    width: 100%;
+    /* Ensure the footer spans the full width */
+    position: fixed;
+    bottom: 0;
+    background: linear-gradient(to top, #4D3857, #3d1e54);
+    /* Dark violet gradient */
+    padding: 1rem 0;
+    display: flex;
+    justify-content: center;
+    /* Center the navbar */
+}
+
+footer nav {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 500px;
+    /* Adjust as needed */
+}
+
+footer nav a {
+    font-size: 1.5rem;
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer nav a.active {
+    color: #fdd835;
+}
+
+footer nav a:hover {
+    color: #fdd835;
+}
+
+.recent-activities {
+    padding: 1rem;
+    width: 100%;
+    /* Make it responsive to the width of the screen */
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.recent-activities h1 {
+    padding-top: 5rem;
+    font-size: 3rem;
+    text-align: center;
+}
+
+.categories {
+    text-align: center;
+    padding: 1rem 0;
+    margin-bottom: 5rem;
+    /* Ensure consistent padding, remove left and right padding */
+    width: 100%;
+    /* Make it responsive to the width of the screen */
+    box-sizing: border-box;
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 1rem;
+    /* Add gap between cards */
+    margin-left: 0;
+    /* Ensure the carousel starts from the left edge */
+}
+
+.categories .categ-card {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    width: 25rem;
+    height: 15rem;
+    background-color: #fff;
+    padding: 0.9375rem;
+    border-radius: 6.25rem 6.25rem 3.125rem 3.125rem;
+    /* Plus arrondi sur le haut */
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    /* Pour éviter que le contenu dépasse */
+}
+
+
+.categories .categ-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6.25rem 6.25rem 3.125rem 3.125rem;
+    /* Plus arrondi sur le haut */
+    flex-grow: 1;
+}
+
+.categories .categ-card:hover {
+    transform: scale(1.1);
+    /* Enlarge the card on hover */
+    box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.2);
+    /* Add a larger shadow on hover */
+}
+
+.categories-carousel h2 {
+    padding-top: 5rem;
+    font-size: 3rem;
+    text-align: center;
+}
+
+/* Title */
+.categ-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #000000;
+    font-size: 1.5rem;
+    /* Adjust as needed */
+    font-weight: bold;
+    font-family: 'Merriweather', serif;
+    text-transform: uppercase;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.734);
+    /* Semi-transparent background */
+    padding: 0.5rem 1rem;
+    border-radius: 0.625rem;
+    /* 10px */
+}
+
+@media (max-width: 1024px) {
+    .categories .categ-card {
+        width: 250px;
+        /* Adjust width for smaller screens */
+        height: 150px;
+        /* Adjust height for smaller screens */
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    .carousel {
+        flex-direction: row;
+    }
+
+    .book-card {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .categories .categ-card {
+        width: 150px;
+        /* Adjust width for smaller screens */
+    }
+}
+
+.title-link {
+    text-decoration: none;
+    /* Remove underline */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.title-link h1 {
+    margin: 0;
+    font-size: 2rem;
+    background: linear-gradient(to bottom, #e8c84c, #ffffff);
+    /* Golden to white gradient */
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-decoration: none;
+    /* Prevent underline */
+}
+
+.user-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 3rem;
+    cursor: pointer;
+    padding-right: 4rem;
+}
+
+.animated-icon {
+    display: flex;
+    align-items: center;
+    overflow: visible;
+    padding-right: 1rem;
+    /* Permet de dépasser si nécessaire */
+}
+
+@keyframes book-bounce {
+    0% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-10px);
+    }
+
+    80% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes shelf-lift {
+    0% {
+        transform: translateY(0) rotate(0);
+    }
+
+    20% {
+        transform: translateY(-4px) rotate(10deg);
+    }
+
+    40% {
+        transform: translateY(-4px) rotate(0);
+    }
+
+    40% {
+        transform: translateY(-4px) rotate(-10deg);
+    }
+
+    80% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.book-shelf {
+    cursor: pointer;
+    transform: scale(2.5);
+    /* Double la taille de l'icône */
+    transform-origin: center;
+    /* Assure que l'agrandissement se fait depuis le centre */
+}
+
+.book-shelf:hover {
+    cursor: pointer;
+    transform: scale(3);
+    /* Double la taille de l'icône */
+    transform-origin: center;
+    /* Assure que l'agrandissement se fait depuis le centre */
+}
+
+.book-shelf:hover .book-shelf__book {
+    animation: book-bounce 0.4s ease;
+    animation-iteration-count: 1;
+}
+
+.book-shelf:hover .book-shelf__book--two {
+    animation-delay: 0.04s;
+}
+
+.book-shelf:hover .book-shelf__book--three {
+    animation-delay: 0.08s;
+}
+
+.book-shelf:hover .book-shelf__shelf {
+    animation: shelf-lift 0.4s ease;
+    animation-iteration-count: 1;
+    transform-origin: 50% 50%;
+}
+
+@keyframes move-right-fade-out {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(40px);
+        opacity: 0;
+    }
+}
+
+.book-shelf.clicked {
+    animation: move-right-fade-out 0.5s forwards;
+}
+
+.no-scroll {
+    overflow: hidden;
+}

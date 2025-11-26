@@ -1,0 +1,27 @@
+{
+  "name": "bibliomaniac_ac_sm",
+  "version": "1.0.0",
+  "description": "Description du Projet Ce projet consiste à concevoir et intégrer une application numérique dédiée à la gestion de livres, en utilisant la sémantique de l'HTML5 et le style moderne du CSS3.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/2024-devops-alt-dist/bibliomaniac_ac_sm.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/2024-devops-alt-dist/bibliomaniac_ac_sm/issues"
+  },
+  "homepage": "https://github.com/2024-devops-alt-dist/bibliomaniac_ac_sm#readme",
+  "devDependencies": {
+    "vite": "^7.2.4"
+  }
+}
