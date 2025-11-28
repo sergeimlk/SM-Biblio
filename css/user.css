@@ -31,7 +31,8 @@ body {
 .profile-header {
     display: flex;
     align-items: flex-start;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    /* Keep items on same line */
     gap: 2rem;
 }
 
@@ -177,32 +178,61 @@ body {
 
 /* Responsive */
 @media (max-width: 768px) {
+    .profile-container {
+        padding: 20px;
+        width: 95%;
+        margin-bottom: 6rem;
+    }
+
     .profile-header {
         flex-direction: column;
         align-items: center;
         text-align: center;
+        flex-wrap: wrap;
     }
 
     .avatar {
         margin-right: 0;
+        width: 120px;
+        height: 120px;
     }
 
     .account-stats {
         width: 100%;
+        margin-top: 1rem;
     }
 
     .favorite-books {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
+        gap: 15px;
         justify-content: center;
         width: 100%;
+        margin-top: 2rem;
     }
 
     .favorite-books .book-card {
         width: 100%;
-        margin-top: 40px;
-        /* Match style.css mobile margin */
-        min-height: 280px;
+        margin-top: 30px;
+        min-height: 260px;
+        padding: 10px;
+    }
+
+    .favorite-books .book-card img {
+        height: 140px;
+        top: -30px;
+        width: 85%;
+    }
+
+    .favorite-books .book-card .book-infos-container {
+        margin-top: -15px;
+    }
+
+    .favorite-books .book-card .book-title {
+        font-size: 0.9rem;
+    }
+
+    .favorite-books .book-card .book-author {
+        font-size: 0.75rem;
     }
 }

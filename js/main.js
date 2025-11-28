@@ -49,7 +49,7 @@ async function getGoogleBooks() {
             const saleInfo = item.saleInfo;
 
             return {
-                id: index + 1,
+                id: item.id, // Use Google Books ID as the primary identifier
                 googleId: item.id,
                 title: volumeInfo.title || 'Unknown Title',
                 author: volumeInfo.authors ? volumeInfo.authors[0] : 'Unknown Author',
@@ -111,6 +111,8 @@ async function init() {
         renderIndexPage(data);
     } else if (page === 'mes-livres.html' || document.getElementById('book-list')) {
         renderMesLivresPage(data);
+    } else if (page === 'user.html' || document.getElementById('favorite-books-container')) {
+        renderUserPage(data);
     } else if (page === 'bookDetails.html' || document.getElementById('bookDetails-container')) {
         renderBookDetailsPage(data);
     } else if (page === 'authorDetails.html' || document.getElementById('author-details')) {
@@ -163,8 +165,8 @@ function renderMesLivresPage(data) {
 
         // Filter by tab
         if (currentFilter === 'down') {
-            // Simulate downloaded books (e.g., even IDs)
-            filteredBooks = filteredBooks.filter(book => book.id % 2 === 0);
+            // Simulate downloaded books (e.g., every other book)
+            filteredBooks = filteredBooks.filter((book, index) => index % 2 === 0);
         }
         // 'fav' shows all for now
 
@@ -217,6 +219,21 @@ function renderMesLivresPage(data) {
     filterAndRender();
 }
 
+function renderUserPage(data) {
+    const favoriteContainer = document.getElementById('favorite-books-container');
+    if (!favoriteContainer) return;
+
+    // Display first 4 books as favorites
+    const favoriteBooks = data.books.slice(0, 4);
+
+    favoriteContainer.innerHTML = '';
+    favoriteBooks.forEach((book) => {
+        const bookCard = createBookCard(book);
+        favoriteContainer.appendChild(bookCard);
+    });
+}
+
+
 function createBookCard(book) {
     const bookCard = document.createElement("div");
     bookCard.classList.add("book-card");
@@ -267,7 +284,7 @@ function renderBookDetailsPage(data) {
     const bookDetailsContainer = document.getElementById("bookDetails-container");
     if (!bookDetailsContainer) return;
 
-    const id = Number(getUrlParameter("id"));
+    const id = getUrlParameter("id");
     if (!id) {
         // Hide loader
         const loader = document.getElementById('book-loader');
@@ -336,7 +353,7 @@ function renderAuthorDetailsPage(data) {
     const aboutContainer = document.querySelector(".about-container");
     if (!authorContainer) return;
 
-    const id = Number(getUrlParameter("id"));
+    const id = getUrlParameter("id");
     const selectedAuthor = data.books.find((book) => book.id === id);
 
     if (selectedAuthor) {

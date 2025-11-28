@@ -63,28 +63,37 @@
 /* Book List Grid */
 .book-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 2rem;
-  padding: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem 1rem;
   justify-items: center;
   margin-bottom: 5rem;
   /* Space for footer */
 }
 
 /* Adjustments for the reused book-card */
-.book-card {
-  margin-top: 0;
-  /* Override style.css margin */
-}
+/* Removed margin-top override to allow global style's pop-out effect */
 
 /* Back Button */
 .back-button {
-  background: none;
+  background: white;
   border: none;
-  color: white;
+  color: var(--color-primary-dark);
   font-size: 2rem;
   cursor: pointer;
-  padding-right: 1rem;
+  padding: 0.5rem;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.back-button:hover {
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.9);
 }
 
 @media (max-width: 768px) {

@@ -2,24 +2,25 @@
 <html lang="fr">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil Utilisateur</title>
-    <link rel="stylesheet" href="css/variables.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/user.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BIBLIOMANIAC - Catégories</title>
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/categories.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet" />
     <link rel="icon" type="image/png" href="assets/images/metamo.png">
 </head>
 
 <body>
-
     <header>
-        <a href="index.html">
+        <a href="index.html" aria-label="Accueil">
             <div class="animated-icon">
                 <svg class="book-shelf" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid"
-                    viewBox="0 0 84 94" height="60" width="60">
+                    viewBox="0 0 84 94" height="60" width="60" aria-label="Logo Bibliomaniac">
                     <path fill="none"
                         d="M37.612 92.805L4.487 73.71c-2.75-1.587-4.45-4.52-4.45-7.687L.008 27.877c-.003-3.154 1.676-6.063 4.405-7.634L37.558 1.167c2.73-1.57 6.096-1.566 8.835.013l33.124 19.096c2.75 1.586 4.45 4.518 4.45 7.686l.028 38.146c.002 3.154-1.677 6.063-4.406 7.634L46.445 92.818c-2.73 1.57-6.096 1.566-8.834-.013z" />
                     <g class="book-shelf__book book-shelf__book--one" fill-rule="evenodd">
@@ -66,43 +67,38 @@
         </a>
     </header>
 
-    <div class="animated-background"></div>
-    <div class="profile-container">
-        <div class="profile-header">
-            <!-- Updated image path -->
-            <img src="assets/images/joker.png" alt="Avatar" class="avatar">
-            <div class="user-info">
-                <h1>John Doe</h1>
-                <p>Location: Paris, France</p>
-                <p>Member since: January 2020</p>
-            </div>
-            <div class="account-stats">
+    <div class="container">
+        <div class="categories-header">
+            <button class="back-button" aria-label="Retour">
+                <i class="fa-solid fa-circle-chevron-left"></i>
+            </button>
+            <h1 id="category-title">Catégories</h1>
+        </div>
 
-                <h2>Statistiques du compte</h2>
-                <p>Livres lus: 45</p>
-                <p>Livres favoris: 12</p>
-                <p>Temps de lecture: 120 heures</p>
-                <p>Genres préférés: 3</p>
-            </div>
+        <div class="category-tabs">
+            <button class="tab-btn active" data-category="fiction">Fiction</button>
+            <button class="tab-btn" data-category="classics">Classiques</button>
+            <button class="tab-btn" data-category="science-fiction">Science-Fiction</button>
+            <button class="tab-btn" data-category="fantasy">Fantasy</button>
+            <button class="tab-btn" data-category="mystery">Mystère</button>
         </div>
-        <div class="favorite-books">
-            <div class="livres-pref">
-                <h1>Livres préférés</h1>
+
+        <main aria-label="Liste des livres par catégorie">
+            <div class="book-list" id="category-book-list">
+                <!-- Content injected by JavaScript -->
             </div>
-            <div id="favorite-books-container">
-                <!-- Content injected by main.js -->
-            </div>
-        </div>
+        </main>
+
+        <footer>
+            <nav>
+                <a href="index.html" aria-label="Accueil"><i class="fa-solid fa-book-open"></i></a>
+                <a href="mes-livres.html" aria-label="Mes Livres"><i class="fa-solid fa-bookmark"></i></a>
+                <a href="msg.html" aria-label="Messages"><i class="fa-solid fa-comment"></i></a>
+                <a href="user.html" aria-label="Profil"><i class="fa-solid fa-circle-user"></i></a>
+            </nav>
+        </footer>
     </div>
-    <footer>
-        <nav>
-            <a href="index.html" aria-label="Accueil"><i class="fa-solid fa-book-open"></i></a>
-            <a href="mes-livres.html" aria-label="Mes Livres"><i class="fa-solid fa-bookmark"></i></a>
-            <a href="msg.html" aria-label="Messages"><i class="fa-solid fa-comment"></i></a>
-            <a href="user.html" aria-label="Profil"><i class="fa-solid fa-circle-user"></i></a>
-        </nav>
-    </footer>
-    <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/categories.js"></script>
 </body>
 
 </html>

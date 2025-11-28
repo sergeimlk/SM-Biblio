@@ -1,0 +1,104 @@
+/* Import variables */
+@import 'variables.css';
+
+.container {
+    padding-bottom: 6rem;
+}
+
+.categories-header {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--color-primary-dark);
+    color: white;
+    gap: 1rem;
+}
+
+.categories-header h1 {
+    font-size: 1.5rem;
+    margin: 0;
+    flex: 1;
+    text-align: center;
+}
+
+.back-button {
+    background: white;
+    border: none;
+    color: var(--color-primary-dark);
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: transform 0.2s, background 0.2s;
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.back-button:hover {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.category-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 2rem 1rem;
+    flex-wrap: wrap;
+    background: linear-gradient(to bottom, var(--color-primary-dark), transparent);
+}
+
+.tab-btn {
+    padding: 0.75rem 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid var(--color-primary-light);
+    color: white;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-family: var(--font-primary);
+}
+
+.tab-btn:hover {
+    background: var(--color-primary-light);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.tab-btn.active {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: white;
+}
+
+.book-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem 1rem;
+    justify-items: center;
+    margin-bottom: 5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .category-tabs {
+        padding: 1rem 0.5rem;
+    }
+
+    .tab-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .book-list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        padding: 1rem;
+    }
+}
