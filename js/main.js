@@ -312,6 +312,15 @@ function renderBookDetailsPage(data) {
         <span class="solid-stars" aria-label="Évaluation du livre : ${selectedBook.rating} étoiles">
             ${generateStars(selectedBook.rating)}
         </span>
+        <div class="cta">
+            <button class="cta-btn-phones" id="audio-book-btn" aria-label="Écouter la version audio">
+              <span class="text-audio">Version audio</span>
+              <i class="fa-solid fa-headphones"></i>
+            </button>
+            <button class="cta-btn-read" id="read-book-btn" aria-label="Lire le livre">
+              lire le livre
+            </button>
+        </div>
       </div>
     `;
 
@@ -341,6 +350,14 @@ function renderBookDetailsPage(data) {
         if (readBookBtn) {
             readBookBtn.addEventListener('click', () => {
                 window.location.href = `reader.html?id=${selectedBook.id}`;
+            });
+        }
+
+        // Add event listener for audio button
+        const audioBookBtn = document.getElementById('audio-book-btn');
+        if (audioBookBtn) {
+            audioBookBtn.addEventListener('click', () => {
+                alert("La version audio de ce livre n'est pas encore disponible.");
             });
         }
     } else {

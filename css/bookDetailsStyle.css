@@ -203,8 +203,8 @@ main {
 .cta {
     display: flex;
     justify-content: center;
-    gap: 1.5rem;
-    margin-top: 2rem;
+    gap: 1rem;
+    margin-top: 1.5rem;
     flex-wrap: wrap;
 }
 
@@ -291,6 +291,10 @@ main {
     .about-container {
         border-radius: var(--radius-lg);
         margin: 2rem;
+    }
+
+    .cta {
+        justify-content: flex-start;
     }
 
     .cta-btn-phones {
