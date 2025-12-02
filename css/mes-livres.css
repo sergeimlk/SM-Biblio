@@ -67,11 +67,11 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-.tabs #favoris:checked~#flap {
+.tabs #fav:checked~#flap {
   transform: translateX(0);
 }
 
-.tabs #downloaded:checked~#flap {
+.tabs #down:checked~#flap {
   transform: translateX(100%);
 }
 
